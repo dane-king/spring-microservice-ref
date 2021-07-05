@@ -1,8 +1,37 @@
 version: '3.8'
 
 services:
+  api-gateway:
+    build:
+      context: .
+      args:
+        - JAR_FILE=/api-gateway/target/*.jar
+    hostname: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+    depends_on:
+      - discovery
+
+  discovery:
+    build:
+      context: .
+      args:
+        - JAR_FILE=/discovery-service/target/*.jar
+    hostname: discovery
+    ports:
+      - "8761:8761"
+
   review:
-    build: ./review-service
+    build:
+      context: .
+      args:
+        - JAR_FILE=/review-service/target/*.jar
+    hostname: review-service
     ports:
       - "8083:8083"
-
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+    depends_on:
+      - discovery

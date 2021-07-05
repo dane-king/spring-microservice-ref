@@ -1,9 +1,21 @@
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: review-service
+          uri: lb://review-service
+          predicates:
+            - Path=/review-service/**
+          filters:
+            - StripPrefix=1
+        - id: movie-service
+          uri: lb://movie-service
+          predicates:
+            - Path=/movie-service/**
+          filters:
+            - StripPrefix=1
 server:
   port: 8080
-zuul:
-  routes:
-    movie-service: /movie-service/**
-    review-service: /review-service/**
+

@@ -10,8 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>api-gateway</module>
         <module>discovery-service</module>
         <module>review-service</module>
-        <module>movie-service</module>
+<!--        <module>movie-service</module>-->
     </modules>
 </project>
