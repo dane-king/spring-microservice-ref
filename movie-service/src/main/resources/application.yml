@@ -8,7 +8,3 @@ spring:
     driver-class-name: org.h2.Driver
     username: penta
     password: bar
-
-feign:
-  hystrix:
-    enabled: true

@@ -1,7 +1,7 @@
 package com.daneking.movieservice;
 
-import com.daneking.movieservice.repository.Movie;
-import com.daneking.movieservice.repository.MovieRepository;
+import com.daneking.movieservice.movie.Movie;
+import com.daneking.movieservice.movie.MovieRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
