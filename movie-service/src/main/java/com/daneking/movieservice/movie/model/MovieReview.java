@@ -2,11 +2,10 @@ package com.daneking.movieservice.movie.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @NoArgsConstructor
-public class MovieReview extends RepresentationModel<MovieReview> {
+public class MovieReview {
     private Long Id;
     private Long movieId;
     private String review;

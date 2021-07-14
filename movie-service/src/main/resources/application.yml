@@ -1,5 +1,9 @@
 server:
   port: 8082
+
+review-service:
+  baseUrl: http://localhost:8083/
+
 spring:
   application:
     name: movie-service

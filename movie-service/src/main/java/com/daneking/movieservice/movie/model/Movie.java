@@ -1,11 +1,11 @@
-package com.daneking.movieservice.movie;
+package com.daneking.movieservice.movie.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 @NoArgsConstructor

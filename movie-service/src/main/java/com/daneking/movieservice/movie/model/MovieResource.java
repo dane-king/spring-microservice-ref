@@ -1,8 +1,6 @@
 package com.daneking.movieservice.movie.model;
 
-import com.daneking.movieservice.movie.Movie;
 import lombok.Data;
-import org.springframework.hateoas.Link;
 
 import java.util.Collection;
 
