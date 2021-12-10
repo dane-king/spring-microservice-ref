@@ -1,0 +1,10 @@
+spring:
+  config:
+    import: api.yml
+server:
+  port: 8082
+
+management:
+  endpoint:
+    web:
+      exposure: health

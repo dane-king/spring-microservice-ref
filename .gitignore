@@ -1,3 +1,7 @@
 .idea
 **/*.iml
 **/target/**
+/stock-quote/src/main/resources/api.yml
+/stock-quote/mvnw
+/stock-quote/mvnw.cmd
+/stock-quote/.mvn/

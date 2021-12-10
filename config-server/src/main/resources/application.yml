@@ -1,0 +1,10 @@
+spring:
+  application:
+  name: config
+server:
+  port: 8888
+
+management:
+  endpoint:
+    web:
+      exposure: health
