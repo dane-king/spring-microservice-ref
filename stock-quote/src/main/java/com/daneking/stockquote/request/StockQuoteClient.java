@@ -15,18 +15,11 @@ public class StockQuoteClient {
 
     public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url, WebClient.Builder webClientBuilder){
         this.oAuthHeader = oAuthHeader;
-        //oAuthHeader.setSigningMethod("ssss");
+        //set another signing method here, must be a valid signing method oAuthHeader.setSigningMethod
         this.webClient = webClientBuilder.baseUrl(url).build();
     }
 
     public Mono<String> getValue(String path){
-
-//        String header = null;
-//        try {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//            return Mono.o Response.SC_BAD_REQUEST;
-//        }
         String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
         return webClient.get().uri(path).header(HttpHeaders.AUTHORIZATION, header).retrieve().bodyToMono(String.class);
     }
