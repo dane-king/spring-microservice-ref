@@ -9,5 +9,5 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class StockQuote {
     private String symbol;
-    private BigDecimal price;
+    private BigDecimal last;
 }

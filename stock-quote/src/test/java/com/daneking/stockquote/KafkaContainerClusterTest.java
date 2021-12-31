@@ -2,7 +2,6 @@ package com.daneking.stockquote;
 
 import com.daneking.stockquote.config.KafkaConfig;
 import com.daneking.stockquote.messaging.StockMessageProducerService;
-import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -13,13 +12,13 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Test;
 import org.rnorth.ducttape.unreliables.Unreliables;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 public class KafkaContainerClusterTest {
-    private StockMessageProducerService kafkaStockMessageProducerService;
 
 
     @Test
@@ -44,7 +42,6 @@ public class KafkaContainerClusterTest {
         }
     }
     private StockMessageProducerService getKafkaStockMessageProducerService(String bootStrapServers){
-        KafkaTemplate<String, StockQuote> kafkaTemplate;
         KafkaConfig config= new KafkaConfig();
         ReflectionTestUtils.setField(config, "bootstrapServers", bootStrapServers);
         return new StockMessageProducerService(config.kafkaTemplate());
@@ -53,19 +50,19 @@ public class KafkaContainerClusterTest {
     protected void testKafkaFunctionality(String bootstrapServers, int partitions, int rf) throws Exception {
         try (
 
-            AdminClient adminClient = AdminClient.create(ImmutableMap.of(
+            AdminClient adminClient = AdminClient.create(Map.of(
                 AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers
             ));
 
             KafkaConsumer<String, String> consumer = new KafkaConsumer<>(
-                ImmutableMap.of(
+                Map.of(
                     ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
                     ConsumerConfig.GROUP_ID_CONFIG, "tc-" + UUID.randomUUID(),
                     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"
                 ),
                 new StringDeserializer(),
                 new StringDeserializer()
-            );
+            )
         ) {
             String topicName = StockMessageProducerService.TOPIC_NAME;
 
@@ -73,7 +70,7 @@ public class KafkaContainerClusterTest {
             adminClient.createTopics(topics).all().get(30, TimeUnit.SECONDS);
 
             consumer.subscribe(Collections.singletonList(topicName));
-            kafkaStockMessageProducerService=getKafkaStockMessageProducerService(bootstrapServers);
+            StockMessageProducerService kafkaStockMessageProducerService = getKafkaStockMessageProducerService(bootstrapServers);
             StockQuote msg = new StockQuote("IBM", new BigDecimal("130.25"));
             kafkaStockMessageProducerService.send(msg);
 

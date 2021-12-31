@@ -1,13 +1,17 @@
 package com.daneking.stockquote.request;
 
+import com.daneking.stockquote.StockQuote;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@Log4j2
 public class StockQuoteClient {
     private final OAuthHeader oAuthHeader;
 
@@ -20,8 +24,17 @@ public class StockQuoteClient {
     }
 
     public Mono<String> getValue(String path){
+        log.info("Getting value from {}", path);
         String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
-        return webClient.get().uri(path).header(HttpHeaders.AUTHORIZATION, header).retrieve().bodyToMono(String.class);
+        return webClient
+                .get()
+                .uri(path)
+                .header(HttpHeaders.AUTHORIZATION, header)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+
+
     }
 
 }
