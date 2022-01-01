@@ -1,8 +1,10 @@
 # spring-ref
 Microservices examples from https://www.pentalog.com/blog/microservices-spring-boot-netflix-oss
 
+* Build projects mvn clean package
+* Run docker-compose build
 * Run all by using docker-compose up -d in root directory
-* When jars are built, run docker-compose build
+* Need to create api.yml in stock-quote project, see project for details
 
 * TODO
   * Config Server - need to use
