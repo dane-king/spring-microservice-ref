@@ -4,18 +4,16 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: review-service
-          uri: lb://review-service
+        - id: stock-quote
+          uri: lb://stock-quote
           predicates:
-            - Path=/review-service/**
-          filters:
-            - StripPrefix=1
-        - id: movie-service
-          uri: lb://movie-service
-          predicates:
-            - Path=/movie-service/**
+            - Path=/stock-quote/**
           filters:
             - StripPrefix=1
 server:
   port: 8080
+
+eureka:
+  client:
+    enabled: false
 

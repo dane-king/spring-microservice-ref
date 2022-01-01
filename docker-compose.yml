@@ -20,6 +20,8 @@ services:
       - "8080:8080"
     environment:
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - eureka.client.enabled=true
+
     depends_on:
       - discovery
 
@@ -31,32 +33,19 @@ services:
     hostname: discovery
     ports:
       - "8761:8761"
-    depends_on:
-      - config
-
-#  stock-processor:
-#    build:
-#      context: .
-#      args:
-#        - JAR_FILE=/review-service/target/*.jar
-#    hostname: review-service
-#    ports:
-#      - "8083:8083"
-#    environment:
-#      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
 #    depends_on:
-#      - discovery
+#      - config
 
-  stock-quote:
+  stock:
     build:
       context: .
       args:
-        - JAR_FILE=/movie-service/target/*.jar
-    hostname: movie-service
+        - JAR_FILE=/stock-quote/target/*.jar
+    hostname: stock-quote
     ports:
       - "8082:8082"
     environment:
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
-      - review-service.baseUrl=http://api-gateway:8080/review-service
+      - eureka.client.enabled=true
     depends_on:
       - discovery

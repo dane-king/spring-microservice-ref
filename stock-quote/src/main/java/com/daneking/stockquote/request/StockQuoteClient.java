@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class StockQuoteClient {
@@ -34,7 +36,15 @@ public class StockQuoteClient {
                 .retrieve()
                 .bodyToMono(String.class);
 
-
+    }
+    @lombok.Value
+    static class StockQuoteResponse{
+        List<StockQuoteHolder> quotes;
+    }
+    @lombok.Value
+    static class StockQuoteHolder{
+        String quoteType;
+        StockQuote quote;
     }
 
 }

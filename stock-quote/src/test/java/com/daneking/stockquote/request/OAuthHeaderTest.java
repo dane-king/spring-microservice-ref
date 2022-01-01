@@ -15,7 +15,7 @@ public class OAuthHeaderTest {
    private String headerRegex ="^OAuth oauth_consumer_key=\"%s\",oauth_token=\"%s\",oauth_signature_method=\"%s\",oauth_timestamp=\"\\d{10}\",oauth_nonce=\".+\",oauth_version=\"%s\",oauth_signature=\".+\"$";
 
    @Test
-   public void shouldRequestHeader() throws NoSuchAlgorithmException {
+   public void shouldRequestHeader() {
        String consumerKey = "ck";
        String token = "tk";
        String version = "1.2";
