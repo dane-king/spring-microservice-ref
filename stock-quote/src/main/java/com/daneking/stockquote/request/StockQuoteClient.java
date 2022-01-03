@@ -19,10 +19,10 @@ public class StockQuoteClient {
 
     private final WebClient webClient;
 
-    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url, WebClient.Builder webClientBuilder){
+    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url){
         this.oAuthHeader = oAuthHeader;
         //set another signing method here, must be a valid signing method oAuthHeader.setSigningMethod
-        this.webClient = webClientBuilder.baseUrl(url).build();
+        this.webClient = WebClient.create(url);//webClientBuilder.baseUrl(url).build();
     }
 
     public Mono<String> getValue(String path){

@@ -16,14 +16,12 @@ public class OAuthHeaderTest {
 
    @Test
    public void shouldRequestHeader() {
-       String consumerKey = "ck";
-       String token = "tk";
        String version = "1.2";
-       OAuthKeys keys=new OAuthKeys(consumerKey, "cs", token, "tks");
+       OAuthKeys keys=new OAuthKeys("ck", "cs", "tk", "tks");
        OAuthHeader header = new OAuthHeader(keys);
        header.setVersion(version);
 
-       String headerRegexPattern = String.format(headerRegex, consumerKey, token,"HmacSHA256", version);
+       String headerRegexPattern = String.format(headerRegex, "ck", "tk","HmacSHA256", version);
        Pattern pattern = Pattern.compile(headerRegexPattern);
 
        String requestHeader = header.generateHeader("method", "url", Map.of("a", "b"));
