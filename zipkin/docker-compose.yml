@@ -26,8 +26,8 @@ services:
     ports:
       # Port used for the Zipkin UI and HTTP Api
       - "9411:9411"
-#networks:
-#  default:
-#    external: true
-#    name: spring-microservice-ref_default
 
+
+networks:
+  default:
+    name: external-network

@@ -1,0 +1,30 @@
+{
+  "response": {
+    "@id": "355b2bd9-d182-413a-8fab-cb6fedd8db2b",
+    "elapsedtime": "0",
+    "quotes": {
+      "quotetype": "Real Time -  market data real time, National Best Bid and Offer",
+      "quote": [
+        {
+          "adp_100": "161.9432",
+          "adp_200": "154.3666",
+          "adp_50": "173.3105",
+          "datetime": "2022-01-19T16:00:00-05:00",
+          "last": "166.2300",
+          "symbol": "AAPL",
+          "vl": "94524963"
+        },
+        {
+          "adp_100": "125.8475",
+          "adp_200": "129.8145",
+          "adp_50": "128.1676",
+          "datetime": "2022-01-19T00:00:00-05:00",
+          "last": "131.5800",
+          "symbol": "IBM",
+          "vl": "4100488"
+        }
+      ]
+    },
+    "error": "Success"
+  }
+}
