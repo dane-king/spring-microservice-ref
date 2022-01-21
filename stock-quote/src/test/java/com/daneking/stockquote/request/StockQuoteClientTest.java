@@ -35,26 +35,25 @@ class StockQuoteClientTest {
 
         stockQuoteClient = new StockQuoteClient(
                 new OAuthHeader(
-                        new OAuthKeys("", "", "", "")), "base", mockWebClient());
+                        new OAuthKeys("", "", "", "")), "base", mockWebClientBuilder());
     }
 
     @Test
     void shouldTransform() {
         //List<StockQuote> result = stockQuoteClient.getStockQuote("/base").block();
-        String result = stockQuoteClient.getStockQuote("/base").block();
-        assertThat(result).contains("response");
+        List<StockQuote> result = stockQuoteClient.getStockQuote("/base").block();
+        assertThat(result.size()).isEqualTo(2);
     }
 
-    public WebClient mockWebClient() {
+    public WebClient.Builder mockWebClientBuilder() {
         String body = getResponse("response.json");
-        System.out.println(body);
         return WebClient.builder()
                 .exchangeFunction(clientRequest ->
                         Mono.just(ClientResponse.create(HttpStatus.OK)
                                 .header("content-type", "application/json")
                                 .body(body)
                                 .build())
-                ).build();
+                );
     }
 
     private String getResponse(String fileName){

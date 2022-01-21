@@ -19,15 +19,32 @@ public class StockQuoteClient {
 
     private final WebClient webClient;
 
-    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url, WebClient webClient){
+    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url, WebClient.Builder webClient){
         this.oAuthHeader = oAuthHeader;
         //set another signing method here, must be a valid signing method
         // oAuthHeader.setSigningMethod("xxxxx");
         //this.webClient = builder.baseUrl(url).build();//webClientBuilder.baseUrl(url).build();
-        this.webClient=webClient;
+        this.webClient=webClient.baseUrl(url).build();
     }
 
-    public Mono<String> getStockQuote(String path){
+    public Mono<List<StockQuote>> getStockQuote(String path){
+        return getRequest(path)
+                .bodyToMono(Root.class)
+                .map(Root::getResponse)
+                .map(Response::getQuotes)
+                .map(Quotes::getQuote);
+
+
+    }
+    public Mono<String> getMarket(String path){
+        log.info("Getting value from {}", path);
+        String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
+
+        return getRequest(path)
+                .bodyToMono(String.class);
+    }
+
+    private WebClient.ResponseSpec getRequest(String path) {
         log.info("Getting value from {}", path);
         String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
         return webClient
@@ -35,18 +52,7 @@ public class StockQuoteClient {
                 .uri(path)
                 .header(HttpHeaders.AUTHORIZATION, header)
                 .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(String.class);
-
-    }
-    @lombok.Value
-    static class StockQuoteResponse{
-        List<StockQuoteHolder> quotes;
-    }
-    @lombok.Value
-    static class StockQuoteHolder{
-        String quoteType;
-        StockQuote quote;
+                .retrieve();
     }
 
 }

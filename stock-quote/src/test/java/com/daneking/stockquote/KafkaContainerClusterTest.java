@@ -71,7 +71,9 @@ public class KafkaContainerClusterTest {
 
             consumer.subscribe(Collections.singletonList(topicName));
             StockMessageProducerService kafkaStockMessageProducerService = getKafkaStockMessageProducerService(bootstrapServers);
-            StockQuote msg = new StockQuote("IBM", new BigDecimal("130.25"));
+            StockQuote msg = new StockQuote();
+            msg.setSymbol("IBM");
+            msg.setLast(new BigDecimal("130.25"));
             kafkaStockMessageProducerService.send(msg);
 
             Unreliables.retryUntilTrue(10, TimeUnit.SECONDS, () -> {
@@ -84,7 +86,7 @@ public class KafkaContainerClusterTest {
                 assertThat(records)
                     .hasSize(1)
                     .extracting(ConsumerRecord::topic, ConsumerRecord::key, ConsumerRecord::value)
-                    .containsExactly(tuple(topicName, null, "{\"symbol\":\"IBM\",\"price\":130.25}"));
+                    .containsExactly(tuple(topicName, null, "{\"adp_100\":null,\"adp_200\":null,\"adp_50\":null,\"datetime\":null,\"last\":130.25,\"symbol\":\"IBM\",\"vl\":null}"));
                 return true;
             });
 

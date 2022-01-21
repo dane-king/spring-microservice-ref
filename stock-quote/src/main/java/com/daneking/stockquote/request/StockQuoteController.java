@@ -1,9 +1,15 @@
 package com.daneking.stockquote.request;
 
+import com.daneking.stockquote.StockQuote;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 
 @RestController
@@ -22,7 +28,7 @@ public class StockQuoteController {
     }
 
     @GetMapping("/quotes")
-    public Mono<String> getQuotes(@RequestParam(required = false, name = "symbols") String symbols_param, @RequestParam(required = false, name = "fields") String fields_param) {
+    public Mono<List<StockQuote>> getQuotes(@RequestParam(required = false, name = "symbols") String symbols_param, @RequestParam(required = false, name = "fields") String fields_param) {
         String paths = buildPath(symbols_param, fields_param);
         log.info("Path {} is built from {} and {}", paths, symbols_param, fields_param);
         return this.stockQuoteClient.getStockQuote(paths);
@@ -37,7 +43,7 @@ public class StockQuoteController {
 
     @GetMapping("/market")
     public Mono<String> isMarketClosed() {
-        return this.stockQuoteClient.getStockQuote("/market/clock.json");
+        return this.stockQuoteClient.getMarket("/market/clock.json");
     }
 
 //    @PostMapping("/quotes")

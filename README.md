@@ -2,10 +2,14 @@
 Microservices examples from https://www.pentalog.com/blog/microservices-spring-boot-netflix-oss
 
 * Build projects mvn clean package
-* Run docker-compose build
-* Run all by using docker-compose up -d in root directory
 * Need to create api.yml in stock-quote project, see project for details
-
+* Docker
+  * change directory to docker
+  * Run docker-compose build
+  * all containers
+    * docker-compose -f .\docker-compose.yml -f .\docker--zipkin-compose.yml -f .\docker-kafka-compose.yml [up -d | down]
+  * just spring spring services without zipkin and kafka 
+    * docker-compose up -d
 * TODO
   * Config Server - need to use
   * JWT/Auth new server or use gateway

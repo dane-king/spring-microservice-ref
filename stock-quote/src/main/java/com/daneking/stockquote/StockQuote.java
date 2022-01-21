@@ -1,13 +1,18 @@
 package com.daneking.stockquote;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
-@AllArgsConstructor
 public class StockQuote {
-    private String symbol;
+    private String adp_100;
+    private String adp_200;
+    private String adp_50;
+    private Date datetime;
     private BigDecimal last;
+    private String symbol;
+    private String vl;
+
 }
