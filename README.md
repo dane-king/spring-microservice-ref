@@ -3,13 +3,7 @@ Microservices examples from https://www.pentalog.com/blog/microservices-spring-b
 
 * Build projects mvn clean package
 * Need to create api.yml in stock-quote project, see project for details
-* Docker
-  * change directory to docker
-  * Run docker-compose build
-  * all containers
-    * docker-compose -f .\docker-compose.yml -f .\docker--zipkin-compose.yml -f .\docker-kafka-compose.yml [up -d | down]
-  * just spring spring services without zipkin and kafka 
-    * docker-compose up -d
+* Docker -see Readme in docker folder
 * TODO
   * Config Server - need to use
   * JWT/Auth new server or use gateway
