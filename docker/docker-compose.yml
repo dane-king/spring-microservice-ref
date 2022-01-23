@@ -47,31 +47,11 @@ services:
       - "8082:8082"
     environment:
       - spring.zipkin.baseUrl=http://zipkin:9411
+      - kafka.bootstrap-servers=broker:29092
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
       - eureka.client.enabled=true
 
 networks:
   default:
       name: external-network
-#    depends_on:
-#      - zipkin
-#
-#  zipkin:
-#    image: openzipkin/zipkin
-#    profiles:
-#      - debug
-#    container_name: zipkin
-#    # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
-#    environment:
-#      - STORAGE_TYPE=mem
-#      # Uncomment to disable scribe
-#      # - SCRIBE_ENABLED=false
-#      # Uncomment to enable self-tracing
-#      - SELF_TRACING_ENABLED=true
-#      # Uncomment to enable debug logging
-#      - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
-#    ports:
-#      # Port used for the Zipkin UI and HTTP Api
-#      - "9411:9411"
-#    depends_on:
-#      - discovery
+

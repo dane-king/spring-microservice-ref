@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -27,12 +28,13 @@ public class StockQuoteClient {
         this.webClient=webClient.baseUrl(url).build();
     }
 
-    public Mono<List<StockQuote>> getStockQuote(String path){
+    public Flux<StockQuote> getStockQuote(String path){
         return getRequest(path)
-                .bodyToMono(Root.class)
+                .bodyToFlux(Root.class)
                 .map(Root::getResponse)
                 .map(Response::getQuotes)
-                .map(Quotes::getQuote);
+                .flatMapIterable(Quotes::getQuote);
+
 
 
     }

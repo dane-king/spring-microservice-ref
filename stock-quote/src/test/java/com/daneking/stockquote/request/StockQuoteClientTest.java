@@ -1,69 +1,57 @@
 package com.daneking.stockquote.request;
 
 import com.daneking.stockquote.StockQuote;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.daneking.stockquote.fixture.ObjectFactory.mockWebClientBuilder;
 
 @ExtendWith(MockitoExtension.class)
 class StockQuoteClientTest {
     private StockQuoteClient stockQuoteClient;
-    @Mock
-    WebClient.Builder webClientBuilder;
-    @Mock
-    WebClient webClient;
 
     @BeforeEach
     void setUp() {
-//        when(webClientBuilder.baseUrl(anyString())).thenReturn(webClientBuilder);
-//        when(webClientBuilder.build()).thenReturn(webClient);
-
         stockQuoteClient = new StockQuoteClient(
                 new OAuthHeader(
-                        new OAuthKeys("", "", "", "")), "base", mockWebClientBuilder());
+                        new OAuthKeys("", "", "", "")), "base", mockWebClientBuilder("response.json"));
     }
 
     @Test
-    void shouldTransform() {
-        //List<StockQuote> result = stockQuoteClient.getStockQuote("/base").block();
-        List<StockQuote> result = stockQuoteClient.getStockQuote("/base").block();
-        assertThat(result.size()).isEqualTo(2);
+    void shouldTransformToStockQuote() {
+        DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu'T'HH:mm:ss:SSSXXXXX");
+        Flux<StockQuote> result = stockQuoteClient.getStockQuote("/base");
+        StockQuote stockQuote1 = buildStockQuote("AAPL", "166.2300", "173.3105", "161.9432", "154.3666", "2022-01-19T16:00:00-05:00", "94524963");
+        StockQuote stockQuote2 = buildStockQuote("IBM", "131.5800", "128.1676", "125.8475", "129.8145", "2022-01-19T00:00:00-05:00", "4100488");
+
+
+        StepVerifier.create(stockQuoteClient.getStockQuote("/base"))
+                .expectNext(stockQuote1)
+                .expectNext(stockQuote2)
+                .verifyComplete();
     }
 
-    public WebClient.Builder mockWebClientBuilder() {
-        String body = getResponse("response.json");
-        return WebClient.builder()
-                .exchangeFunction(clientRequest ->
-                        Mono.just(ClientResponse.create(HttpStatus.OK)
-                                .header("content-type", "application/json")
-                                .body(body)
-                                .build())
-                );
-    }
-
-    private String getResponse(String fileName){
-        InputStream ioStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(fileName);
-        String result = new BufferedReader(new InputStreamReader(ioStream))
-                .lines().collect(Collectors.joining("\n"));
-        return result;
-
+    
+    @NotNull
+    private StockQuote buildStockQuote(String symbol, String last, String adp_50, String adp_100, String adp_200, String datetime, String vl) {
+        StockQuote stockQuote1 = new StockQuote();
+        stockQuote1.setSymbol(symbol);
+        stockQuote1.setLast(last);
+        stockQuote1.setAdp_50(adp_50);
+        stockQuote1.setAdp_100(adp_100);
+        stockQuote1.setAdp_200(adp_200);
+        stockQuote1.setDatetime(datetime);
+        stockQuote1.setVl(vl);
+        return stockQuote1;
     }
 
 
