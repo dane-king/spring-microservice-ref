@@ -1,20 +1,19 @@
 server:
-  port: 8082
+  port: 8085
 
 spring:
   application:
-    name: stock-quote
-  config:
-    import: api.yml
+    name: processor
   zipkin:
     enable: true
   sleuth:
     sampler:
       percentage: 1
   kafka:
-    producer:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: dane-king
       bootstrap-servers: localhost:9092
-
 
 eureka:
   client:

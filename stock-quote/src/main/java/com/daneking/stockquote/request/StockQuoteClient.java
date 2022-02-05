@@ -1,7 +1,7 @@
 package com.daneking.stockquote.request;
 
 import com.daneking.stockquote.StockQuote;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,10 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
-@Log4j2
+@Slf4j
 public class StockQuoteClient {
     private final OAuthHeader oAuthHeader;
 
@@ -29,15 +27,22 @@ public class StockQuoteClient {
     }
 
     public Flux<StockQuote> getStockQuote(String path){
+
         return getRequest(path)
                 .bodyToFlux(Root.class)
                 .map(Root::getResponse)
                 .map(Response::getQuotes)
-                .flatMapIterable(Quotes::getQuote);
-
-
-
+                .flatMapIterable(Quotes::getQuote)
+                .onErrorReturn(fallbackValue());
     }
+
+    private StockQuote fallbackValue() {
+        StockQuote fallBack = new StockQuote();
+        fallBack.setSymbol("XXXXX");
+        fallBack.setLast("-0.01");
+        return fallBack;
+    }
+
     public Mono<String> getMarket(String path){
         log.info("Getting value from {}", path);
         String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);

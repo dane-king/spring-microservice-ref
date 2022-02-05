@@ -1,6 +1,7 @@
 package com.daneking.stockquote.messaging;
 
 import com.daneking.stockquote.StockQuote;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import reactor.core.publisher.Flux;
 
 @Service
 @Lazy
+@Slf4j
 public class StockMessageProducerService {
     public final static String TOPIC_NAME = "fct.stock.quote";
 
@@ -18,7 +20,9 @@ public class StockMessageProducerService {
     }
 
     public void send(StockQuote quote) {
-        this.kafkaTemplate.send(TOPIC_NAME, quote);
+        String key = quote.getSymbol();
+        log.info("Sending key: {} quote: {} to topic: {}",key, quote, TOPIC_NAME );
+        this.kafkaTemplate.send(TOPIC_NAME, key, quote);
     }
 
 

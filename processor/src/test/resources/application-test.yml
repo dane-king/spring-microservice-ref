@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    consumer:
+      timeout : 20
+  zipkin:
+    enable: false
+eureka:
+  client:
+    enabled: false
+

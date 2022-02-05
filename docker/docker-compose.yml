@@ -1,14 +1,18 @@
 version: '3.8'
 
 services:
-#  config:
-#    build:
-#      context: .
-#      args:
-#        - JAR_FILE=/discovery-service/target/*.jar
-#    hostname: config
-#    ports:
-#      - "8888:8888"
+  config:
+    build:
+      context: ..
+      args:
+        - JAR_FILE=/discovery-service/target/*.jar
+    hostname: config
+    ports:
+      - "8888:8888"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
   api-gateway:
     build:
       context: ..
@@ -24,6 +28,9 @@ services:
 
     depends_on:
       - discovery
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
 
   discovery:
     build:
@@ -33,8 +40,8 @@ services:
     hostname: discovery
     ports:
       - "8761:8761"
-##    depends_on:
-##      - config
+    depends_on:
+      - config
 
 
   stock:
@@ -47,9 +54,70 @@ services:
       - "8082:8082"
     environment:
       - spring.zipkin.baseUrl=http://zipkin:9411
-      - kafka.bootstrap-servers=broker:29092
+      - spring.kafka.producer.bootstrap-servers=broker:29092
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
       - eureka.client.enabled=true
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+  processor:
+    build:
+      context: ..
+      args:
+        - JAR_FILE=/processor/target/*.jar
+    hostname: processor
+    ports:
+      - "8085:8085"
+    environment:
+      - spring.zipkin.baseUrl=http://zipkin:9411
+      - spring.kafka.consumer.bootstrap-servers=broker:29092
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+    volumes:
+      - ../elk/elasticsearch/data:/usr/share/elasticsearch/data:rw              # Persistence data
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.2.0
+    ports:
+      - "25826:25826"
+      - "5044:5044"
+    volumes:
+      - ../elk/logstash/pipeline:/usr/share/logstash/pipeline:ro                # Pipeline configuration
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    ports:
+      - "5601:5601"
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.2.0
+    volumes:
+      - ../elk/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro # Configuration file
+#      - "//wsl$/docker-desktop-data/version-pack-data/community/docker/containers:/var/lib/docker/containers:ro"           # Docker logs
+      - //var/run/docker.sock:/var/run/docker.sock:ro                       # Additional information about containers
+      - ../elk/filebeat/data:/usr/share/filebeat/data:rw                        # Persistence data
+    user: root                                                             # Allow access to log files and docker.sock
+    restart: on-failure
+    depends_on:
+      - logstash
+
+
 
 networks:
   default:
