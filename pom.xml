@@ -13,6 +13,5 @@
         <module>stock-quote</module>
         <module>config-server</module>
         <module>processor</module>
-        <module>auth</module>
     </modules>
 </project>

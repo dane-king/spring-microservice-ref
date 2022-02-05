@@ -1,5 +1,7 @@
-- Create a yml file in the resources' directory to old auth keys
-in the following format
+## Important
+### Create a yml file, named api.yml in the resources' directory to hold auth keys in the following format
+
+---
 
 ````
 base.url: https://myapi.com/v1/
@@ -18,6 +20,9 @@ stock:
   - add to .gitignore so credentials aren't checked in
   - I believe I can use environment variables too
   - stock symbols are defaults, they can be passed in on request params
+
+- Look in docker directory for directions of running as docker containers and docker-compose files to
+run kafka, zipkin and all the spring cloud apps
 
 - helpful kafka commands 
   - go into kafka docker container

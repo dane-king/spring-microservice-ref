@@ -13,7 +13,7 @@
   * needs to be at root for some reason. Get an error locating jar if moved to docker directory
 * to run all containers
   ``` 
-  docker-compose -f .\docker-compose.yml -f .\docker--zipkin-compose.yml -f .\docker-kafka-compose.yml [up -d | down]
+  docker-compose -f ./docker-compose.yml -f ./docker--zipkin-compose.yml -f ./docker-kafka-compose.yml [up -d | down]
   ```
 * to run just spring services without zipkin and kafka
   ```
