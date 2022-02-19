@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "6620869f-b705-46b0-a2dd-9f520bd85647"
+    "analytics": "df32cb0f-380d-4363-b8e8-f72c2ae027ad"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -10,7 +10,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -18,7 +18,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "dking",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -28,13 +28,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "sass",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -89,24 +90,6 @@
             "browserTarget": "stock-dashboard:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "sass",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.sass"
-            ],
-            "scripts": []
-          }
-        }
       }
     }
   },
