@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, materialize, dematerialize } from 'rxjs/operators';
-import SampleJson from '../_helpers/fake-backend.json';
+import StockQuotes from '../mocks/stocks.json';
 
 
 @Injectable()
@@ -24,7 +24,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
 
     function getQuotes() {
-      return ok(SampleJson);
+      return ok(StockQuotes);
     }
 
 
@@ -35,7 +35,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         .pipe(delay(500)); // delay observable to simulate server api call
     }
 
-    function error(message) {
+    function error(message:string|undefined) {
       return throwError(() => new Error(message))
         .pipe(materialize(), delay(500), dematerialize()); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
     }

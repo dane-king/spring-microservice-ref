@@ -20,6 +20,13 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "tsConfig": "./tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -89,7 +96,7 @@
           "options": {
             "browserTarget": "stock-dashboard:build"
           }
-        },
+        }
       }
     }
   },

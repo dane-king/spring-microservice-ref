@@ -1,3 +1,4 @@
+import { StocksModule } from './../../stocks.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StockCardComponent } from './stock-card.component';
@@ -8,7 +9,9 @@ describe('StockCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StockCardComponent ]
+      declarations: [ StockCardComponent],
+      imports:[StocksModule]
+
     })
     .compileComponents();
   });
@@ -22,4 +25,6 @@ describe('StockCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
 });

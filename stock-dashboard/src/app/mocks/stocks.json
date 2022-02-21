@@ -6,6 +6,7 @@
     "datetime": "2022-02-18T00:00:00-05:00",
     "last": "167.3000",
     "symbol": "AAPL",
+    "name": "Apple Inc.",
     "vl": "82772674"
   },
   {
@@ -15,6 +16,7 @@
     "datetime": "2022-02-18T00:00:00-05:00",
     "last": "124.3500",
     "symbol": "IBM",
+    "name": "International Business Machines Corp.",
     "vl": "4609212"
   },
   {
@@ -23,6 +25,7 @@
     "adp_50": "5.8234",
     "datetime": "2022-02-18T00:00:00-05:00",
     "last": "5.6600",
+    "name": "Nokia Corporation",
     "symbol": "NOK",
     "vl": "26626039"
   },
@@ -33,6 +36,7 @@
     "datetime": "2022-02-18T00:00:00-05:00",
     "last": "18.0400",
     "symbol": "F",
+    "name": "Ford Motor Co.",
     "vl": "106404212"
   }
 ]
