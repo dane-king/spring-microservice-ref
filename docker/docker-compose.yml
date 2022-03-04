@@ -61,6 +61,23 @@ services:
       collect_logs_with_filebeat: "true"
       decode_log_event_to_json_object: "true"
 
+  graphql:
+    build:
+      context: ..
+      args:
+        - JAR_FILE=/stock-quote/target/*.jar
+    hostname: stock-quote
+    ports:
+      - "8090:8090"
+    environment:
+      - spring.zipkin.baseUrl=http://zipkin:9411
+      - spring.kafka.consumer.bootstrap-servers=broker:29092
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - eureka.client.enabled=true
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
   processor:
     build:
       context: ..

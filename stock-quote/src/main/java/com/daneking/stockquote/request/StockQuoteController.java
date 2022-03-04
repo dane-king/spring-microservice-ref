@@ -2,7 +2,7 @@ package com.daneking.stockquote.request;
 
 import com.daneking.stockquote.StockQuote;
 import com.daneking.stockquote.scheduler.Scheduler;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
+
 
 @RestController
-@Log4j2
+@Slf4j
 public class StockQuoteController {
     private final StockQuoteClient stockQuoteClient;
     private final String fields;
@@ -31,16 +38,19 @@ public class StockQuoteController {
 
     @GetMapping("/quotes")
     public Flux<StockQuote> getQuotes(@RequestParam(required = false, name = "symbols") String symbols_param, @RequestParam(required = false, name = "fields") String fields_param) {
-        String paths = buildPath(symbols_param, fields_param);
-        log.info("Path {} is built from {} and {}", paths, symbols_param, fields_param);
-        return this.stockQuoteClient.getStockQuote(paths);
+        log.info("Path is built from {} and {}", symbols_param, fields_param);
+        return this.stockQuoteClient.getStockQuote(defaultIfEmpty(symbols_param,this.symbols), defaultIfEmpty(fields_param,this.fields));
     }
 
-    private String buildPath(String symbols_param, String fields_param) {
-        return String.format("/market/ext/quotes.json?symbols=%s&fids=%s",
-                symbols_param == null ? symbols : symbols_param,
-                fields_param == null ? fields : fields_param);
+    @GetMapping("/test")
+    public String getQuotesTest(@RequestParam(required = false, name = "symbols") String symbols_param, @RequestParam(required = false, name = "fields") String fields_param) {
+        InputStream ioStream = StockQuoteController.class.getClassLoader().getResourceAsStream("response.json");
+        assert ioStream != null;
+        return new BufferedReader(new InputStreamReader(ioStream)).lines().collect(Collectors.joining("\n"));
     }
+
+
+
 
     @GetMapping("/market")
     public Mono<String> isMarketClosed() {
@@ -49,9 +59,7 @@ public class StockQuoteController {
 
     @GetMapping("/send")
     public String addToQueue(){
-        String paths = buildPath("F,IBM", "symbol,datetime,last,vl");
-        log.info("Path is {}", paths);
-        scheduler.perform(paths);
+        scheduler.perform("F,IBM", "symbol,datetime,last,vl");
         return "send quotes to queue";
     }
 }

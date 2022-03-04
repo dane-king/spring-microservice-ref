@@ -17,16 +17,28 @@ public class StockQuoteClient {
     private final OAuthHeader oAuthHeader;
 
     private final WebClient webClient;
+    private static final String quotePath = "/market/ext/quotes.json?symbols=%s&fids=%s";
 
-    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}")String url, WebClient.Builder webClient){
+    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}") String url, WebClient.Builder webClient) {
         this.oAuthHeader = oAuthHeader;
         //set another signing method here, must be a valid signing method
         // oAuthHeader.setSigningMethod("xxxxx");
         //this.webClient = builder.baseUrl(url).build();//webClientBuilder.baseUrl(url).build();
-        this.webClient=webClient.baseUrl(url).build();
+        this.webClient = webClient.baseUrl(url).build();
     }
 
-    public Flux<StockQuote> getStockQuote(String path){
+    public Flux<StockQuote> getStockQuote(String symbols, String fields) {
+        return getStockQuote(buildPath(symbols, fields));
+    }
+
+
+    private String buildPath(String symbols_param, String fields_param) {
+        return String.format("/market/ext/quotes.json?symbols=%s&fids=%s",
+                symbols_param,
+                fields_param);
+    }
+
+    public Flux<StockQuote> getStockQuote(String path) {
 
         return getRequest(path)
                 .bodyToFlux(Root.class)
@@ -43,7 +55,7 @@ public class StockQuoteClient {
         return fallBack;
     }
 
-    public Mono<String> getMarket(String path){
+    public Mono<String> getMarket(String path) {
         log.info("Getting value from {}", path);
         String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
 

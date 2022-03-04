@@ -7,14 +7,20 @@ spring:
   config:
     import: api.yml
   zipkin:
-    enable: true
+    enabled: false
   sleuth:
     sampler:
       percentage: 1
   kafka:
     producer:
       bootstrap-servers: localhost:9092
-
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: example
+      database: stock_holdings
+      port: '27017'
 
 eureka:
   client:

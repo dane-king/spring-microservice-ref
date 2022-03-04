@@ -13,5 +13,6 @@
         <module>stock-quote</module>
         <module>config-server</module>
         <module>processor</module>
+        <module>graphql</module>
     </modules>
 </project>

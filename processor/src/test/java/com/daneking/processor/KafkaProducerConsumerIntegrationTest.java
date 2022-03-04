@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.*;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.waitAtMost;
 
 
 @Import(KafkaProducerConsumerIntegrationTest.KafkaTestContainersConfiguration.class)

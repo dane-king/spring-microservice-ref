@@ -1,4 +1,4 @@
-import * as fromStocks from './stocks/components';
+import * as fromStocks from '../stocks/components';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 

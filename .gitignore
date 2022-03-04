@@ -6,6 +6,9 @@ build/
 /stock-quote/mvnw
 /stock-quote/mvnw.cmd
 /stock-quote/.mvn/
-/elk/elasticsearch/data/nodes/
-/elk/filebeat/data/registry/
-/elk/filebeat/data/meta.json
+/docker/elk/elasticsearch/data/
+/docker/elk/filebeat/data/
+/docker/mongo/data/
+docker/.mvn/
+docker/mvnw
+docker/mvnw.cmd
