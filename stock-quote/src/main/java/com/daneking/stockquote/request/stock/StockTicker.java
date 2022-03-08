@@ -3,7 +3,8 @@ package com.daneking.stockquote.request.stock;
 import lombok.Value;
 
 @Value
+public
 class StockTicker {
-    private String ticker;
+    private String symbol;
     private String name;
 }

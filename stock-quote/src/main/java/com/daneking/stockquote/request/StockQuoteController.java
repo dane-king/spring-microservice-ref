@@ -59,7 +59,8 @@ public class StockQuoteController {
 
     @GetMapping("/send")
     public String addToQueue(){
-        scheduler.perform("F,IBM", "symbol,datetime,last,vl");
+        //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
+        scheduler.perform();
         return "send quotes to queue";
     }
 }
