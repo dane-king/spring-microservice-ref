@@ -23,7 +23,10 @@
   ```
   docker-compose -f ./elk/docker-compose.yml up -d
   ```
-
+  Kowl to view kafka queue on localhost:8030
+  ```
+   docker run --network=external-network -p 8030:8080 -e KAFKA_BROKERS=broker:29092 quay.io/cloudhut/kowl:master
+  ```
 
 
 

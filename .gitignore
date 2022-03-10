@@ -11,4 +11,7 @@ build/
 /docker/mongo/data/
 docker/.mvn/
 docker/mvnw
-docker/mvnw.cmd
+docker/mvnw.cmd.history\
+.angular\
+.vscode\
+mvnw.cmd

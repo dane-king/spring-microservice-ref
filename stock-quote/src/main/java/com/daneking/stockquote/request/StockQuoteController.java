@@ -5,6 +5,7 @@ import com.daneking.stockquote.scheduler.Scheduler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -42,25 +43,28 @@ public class StockQuoteController {
         return this.stockQuoteClient.getStockQuote(defaultIfEmpty(symbols_param,this.symbols), defaultIfEmpty(fields_param,this.fields));
     }
 
-    @GetMapping("/test")
-    public String getQuotesTest(@RequestParam(required = false, name = "symbols") String symbols_param, @RequestParam(required = false, name = "fields") String fields_param) {
-        InputStream ioStream = StockQuoteController.class.getClassLoader().getResourceAsStream("response.json");
-        assert ioStream != null;
-        return new BufferedReader(new InputStreamReader(ioStream)).lines().collect(Collectors.joining("\n"));
-    }
-
-
-
-
     @GetMapping("/market")
     public Mono<String> isMarketClosed() {
         return this.stockQuoteClient.getMarket("/market/clock.json");
     }
 
-    @GetMapping("/send")
-    public String addToQueue(){
+    @GetMapping("/send/{owner}")
+    public String addToQueue(@PathVariable String owner) throws Exception {
         //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
-        scheduler.perform();
+        scheduler.run();
         return "send quotes to queue";
     }
+    @GetMapping("/start")
+    public String startTimer() throws Exception {
+        //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
+        scheduler.run();
+        return "Started timer";
+    }
+    @GetMapping("/stop")
+    public String stopTimer() throws Exception {
+        //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
+        scheduler.stop();
+        return "Started timer";
+    }
+
 }

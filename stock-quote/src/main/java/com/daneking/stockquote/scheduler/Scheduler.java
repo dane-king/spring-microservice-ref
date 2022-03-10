@@ -1,40 +1,34 @@
 package com.daneking.stockquote.scheduler;
 
-import com.daneking.stockquote.messaging.StockMessageProducerService;
-import com.daneking.stockquote.request.StockQuoteClient;
-import com.daneking.stockquote.request.stock.StockList;
-import com.daneking.stockquote.request.stock.StockListRepository;
-import com.daneking.stockquote.request.stock.StockTicker;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.ScheduledFuture;
 
 @Service
 @Slf4j
 public class Scheduler {
-    private final StockQuoteClient client;
-    private final StockMessageProducerService producerService;
-    private final StockListRepository repository;
+    private final TaskScheduler taskScheduler;
+    private final QuoteTask task;
+    private ScheduledFuture<?> taskState;
 
-    public Scheduler(StockQuoteClient client, StockMessageProducerService producerService, StockListRepository repository) {
-        this.client = client;
-        this.producerService = producerService;
-        this.repository = repository;
+    public Scheduler(TaskScheduler taskScheduler,
+                     QuoteTask task) {
+        this.taskScheduler = taskScheduler;
+        this.task = task;
     }
-    public void perform(){
-        List<StockList> stockList = repository.findByOwner("kingd9");
-        String symbols = stockList.stream()
-                .map(StockList::getStocks)
-                .flatMap(List::stream)
-                .map(StockTicker::getSymbol)
-                .collect(Collectors.joining(","));
-        log.info("Getting quotes for {}", symbols);
-        perform(symbols,"symbol,name, datetime,last,vl,adp_50,adp_100,adp_200");
+
+    public void run() {
+        //check calendar if not holiday start polling
+        log.info("Running task.....");
+        taskState = taskScheduler.schedule(task, new CronTrigger("0 */15 9-16 * * 1-5"));
     }
-    public void perform(String symbol, String fields) {
-        client.getStockQuote(symbol,fields).subscribe(producerService::send);
+
+    public void stop() {
+        log.info("Stopping task.....");
+        taskState.cancel(false);
     }
 
 }

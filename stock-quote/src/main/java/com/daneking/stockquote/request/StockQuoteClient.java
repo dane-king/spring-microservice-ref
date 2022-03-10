@@ -14,16 +14,20 @@ import reactor.core.publisher.Mono;
 @Service
 @Slf4j
 public class StockQuoteClient {
+    public static final String QUOTE_PATH = "/market/ext/quotes.json?symbols=%s&fids=%s";
     private final OAuthHeader oAuthHeader;
 
     private final WebClient webClient;
-    private static final String quotePath = "/market/ext/quotes.json?symbols=%s&fids=%s";
 
+    /**
+     * set another signing method here, must be a valid signing method
+     * oAuthHeader.setSigningMethod("xxxxx");
+     * @param oAuthHeader wrapper for OAuth logic
+     * @param url base url
+     * @param webClient webclient to make request
+     */
     public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}") String url, WebClient.Builder webClient) {
         this.oAuthHeader = oAuthHeader;
-        //set another signing method here, must be a valid signing method
-        // oAuthHeader.setSigningMethod("xxxxx");
-        //this.webClient = builder.baseUrl(url).build();//webClientBuilder.baseUrl(url).build();
         this.webClient = webClient.baseUrl(url).build();
     }
 
@@ -33,13 +37,12 @@ public class StockQuoteClient {
 
 
     private String buildPath(String symbols_param, String fields_param) {
-        return String.format("/market/ext/quotes.json?symbols=%s&fids=%s",
+        return String.format(QUOTE_PATH,
                 symbols_param,
                 fields_param);
     }
 
     public Flux<StockQuote> getStockQuote(String path) {
-
         return getRequest(path)
                 .bodyToFlux(Root.class)
                 .map(Root::getResponse)
@@ -57,8 +60,6 @@ public class StockQuoteClient {
 
     public Mono<String> getMarket(String path) {
         log.info("Getting value from {}", path);
-        String header = oAuthHeader.generateHeader(HttpMethod.GET.name(), path);
-
         return getRequest(path)
                 .bodyToMono(String.class);
     }
@@ -73,5 +74,6 @@ public class StockQuoteClient {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve();
     }
+
 
 }
