@@ -1,15 +1,9 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Title</mat-card-title>
-        <mat-card-subtitle>Subtitle</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        Text content
-    </mat-card-content>
-    <mat-card-actions align="start">
-        <!-- <button mat-button (click)="onAction1">Action1</button> -->
-    </mat-card-actions>
-    <mat-card-footer>
-        Footer
-    </mat-card-footer>
-</mat-card>
+<div class="w-1/4 mx-auto flex p-6 bg-white rounded-lg shadow-xl">
+  <div class="pt-1">
+    <h4 class="text-xl text-gray-900 leading-tight">John Doe</h4>
+    <p class="text-base text-gray-600 leading-normal">
+      Web Developer at Acme
+    </p>
+    <a [routerLink]="'/stocks'">Back</a>
+  </div>
+</div>

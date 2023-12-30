@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StocksListComponent should have render properly 1`] = `
+<app-stocks-list
+  __ngContext__={[Function LRootView]}
+  displayedColumns={[Function Array]}
+  stocks={[Function Array]}
+>
+  <div
+    id="stock-list"
+  >
+    <h2>
+      Stock List
+    </h2>
+    <table
+      class="shadow-lg bg-white"
+    >
+      <tr>
+        <th
+          class="bg-blue-100 border text-left px-8 py-4"
+        >
+          Ticker
+        </th>
+        <th
+          class="bg-blue-100 border text-left px-8 py-4"
+        >
+          Name
+        </th>
+        <th
+          class="bg-blue-100 border text-left px-8 py-4"
+        >
+          Last
+        </th>
+        <th
+          class="bg-blue-100 border text-left px-8 py-4"
+        >
+          Amount Change
+        </th>
+        <th
+          class="bg-blue-100 border text-left px-8 py-4"
+        >
+          Percent Change
+        </th>
+      </tr>
+      <tr>
+        <td
+          class="border px-8 py-4"
+        >
+          <a
+            href="/stocks/IBM"
+          >
+             IBM 
+          </a>
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          International Business Machine
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          124.35
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          0.62
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+           1.00%
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="border px-8 py-4"
+        >
+          <a
+            href="/stocks/AAPL"
+          >
+             AAPL 
+          </a>
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          Apple Inc
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          167.3
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          -1.58
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+           -50.00%
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="border px-8 py-4"
+        >
+          <a
+            href="/stocks/NOK"
+          >
+             NOK 
+          </a>
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          Nokia
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          5.66
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+          0.01
+        </td>
+        <td
+          class="border px-8 py-4"
+        >
+           1.00%
+        </td>
+      </tr>
+    </table>
+  </div>
+</app-stocks-list>
+`;

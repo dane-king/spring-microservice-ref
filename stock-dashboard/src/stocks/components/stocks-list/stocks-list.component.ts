@@ -17,7 +17,7 @@ const ELEMENT_DATA: Stock[] = [
 
 export class StocksListComponent {
   displayedColumns: string[] = ['ticker', 'name', 'last', 'change', 'percent_change'];
-  dataSource = ELEMENT_DATA;
+  stocks = ELEMENT_DATA;
 
   constructor() { }
 

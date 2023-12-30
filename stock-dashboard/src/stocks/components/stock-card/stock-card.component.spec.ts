@@ -1,6 +1,6 @@
 import { StocksModule } from './../../stocks.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { StockCardComponent } from './stock-card.component';
 
 describe('StockCardComponent', () => {
@@ -10,7 +10,7 @@ describe('StockCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ StockCardComponent],
-      imports:[StocksModule]
+      imports:[StocksModule, RouterTestingModule]
 
     })
     .compileComponents();
