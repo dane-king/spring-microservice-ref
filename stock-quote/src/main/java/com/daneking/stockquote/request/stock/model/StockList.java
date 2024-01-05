@@ -1,5 +1,6 @@
-package com.daneking.stockquote.request.stock;
+package com.daneking.stockquote.request.stock.model;
 
+import com.daneking.stockquote.request.stock.StockTicker;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;

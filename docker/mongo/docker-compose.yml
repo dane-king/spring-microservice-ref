@@ -12,6 +12,4 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
-networks:
-  default:
-    name: external-network
+

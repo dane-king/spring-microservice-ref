@@ -15,7 +15,8 @@
   ``` 
   docker-compose -f ./docker-compose.yml -f ./docker--zipkin-compose.yml -f ./docker-kafka-compose.yml [up -d | down]
   ```
-* to run just spring services without zipkin and kafka
+* to run just spring services and mongo without zipkin, kafka
+* currently stock service is dependent on mongo
   ```
   docker-compose up -d
   ```
@@ -27,18 +28,6 @@
   ```
    docker run --network=external-network -p 8030:8080 -e KAFKA_BROKERS=broker:29092 quay.io/cloudhut/kowl:master
   ```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 * notes

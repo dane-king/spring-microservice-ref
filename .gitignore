@@ -15,3 +15,5 @@ docker/mvnw.cmd.history\
 .angular\
 .vscode\
 mvnw.cmd
+/config-server/src/main/resources/application-local.yml
+/docker/data/

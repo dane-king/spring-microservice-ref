@@ -61,6 +61,8 @@ services:
     labels:
       collect_logs_with_filebeat: "true"
       decode_log_event_to_json_object: "true"
+    depends_on:
+      - mongodb
 
   graphql:
     build:
@@ -94,11 +96,22 @@ services:
       collect_logs_with_filebeat: "true"
       decode_log_event_to_json_object: "true"
 
-
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - ./data:/data/db:rw
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
 
 
 
 networks:
-  default:
-      name: external-network
+  network1:
 

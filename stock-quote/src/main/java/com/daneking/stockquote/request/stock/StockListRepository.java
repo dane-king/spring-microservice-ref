@@ -1,5 +1,6 @@
 package com.daneking.stockquote.request.stock;
 
+import com.daneking.stockquote.request.stock.model.StockList;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

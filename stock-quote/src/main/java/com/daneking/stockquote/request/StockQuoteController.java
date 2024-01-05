@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
-
 import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
 
 
@@ -24,17 +19,14 @@ import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
 public class StockQuoteController {
     private final StockQuoteClient stockQuoteClient;
     private final String fields;
-    private final Scheduler scheduler;
     private final String symbols;
 
     public StockQuoteController(StockQuoteClient stockQuoteClient,
                                 @Value("${stock.symbols:AAPL}") String symbols,
-                                @Value("${stock.fields:symbol,datetime,last,vl,adp_50,adp_100,adp_200}") String fields,
-                                Scheduler scheduler) {
+                                @Value("${stock.fields:symbol,datetime,last,vl,adp_50,adp_100,adp_200}") String fields) {
         this.stockQuoteClient = stockQuoteClient;
         this.symbols = symbols;
         this.fields = fields;
-        this.scheduler = scheduler;
     }
 
     @GetMapping("/quotes")
@@ -51,20 +43,7 @@ public class StockQuoteController {
     @GetMapping("/send/{owner}")
     public String addToQueue(@PathVariable String owner) throws Exception {
         //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
-        scheduler.run();
         return "send quotes to queue";
-    }
-    @GetMapping("/start")
-    public String startTimer() throws Exception {
-        //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
-        scheduler.run();
-        return "Started timer";
-    }
-    @GetMapping("/stop")
-    public String stopTimer() throws Exception {
-        //scheduler.perform("F,IBM", "symbol,datetime,last,vl");
-        scheduler.stop();
-        return "Started timer";
     }
 
 }

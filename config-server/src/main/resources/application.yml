@@ -1,9 +1,13 @@
 spring:
   application:
-  name: config
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///${user.dir}/config-repo
 server:
   port: 8888
-
 management:
   endpoint:
     web:
