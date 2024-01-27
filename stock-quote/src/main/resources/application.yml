@@ -3,12 +3,10 @@ server:
 
 spring:
   application:
-    name: stockQuote
-  zipkin:
-    enabled: false
-  config:
-    import: ["api.yml","optional:configserver:"]
+    name: stock-quote
+
 logging:
   level:
     web: DEBUG
+
 

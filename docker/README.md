@@ -1,4 +1,4 @@
-* Need to create spring boot jars before running compose
+-* Need to create spring boot jars before running compose
   ```
   mvn clean package -DskipTests
   ```

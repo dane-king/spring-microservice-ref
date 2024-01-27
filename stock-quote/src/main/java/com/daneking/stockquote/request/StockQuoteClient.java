@@ -3,6 +3,7 @@ package com.daneking.stockquote.request;
 import com.daneking.stockquote.StockQuote;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -13,7 +14,9 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
+@Lazy
 public class StockQuoteClient {
+    //TODO make @Value
     public static final String QUOTE_PATH = "/market/ext/quotes.json?symbols=%s&fids=%s";
     private final OAuthHeader oAuthHeader;
 
@@ -26,7 +29,7 @@ public class StockQuoteClient {
      * @param url base url
      * @param webClient webclient to make request
      */
-    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url}") String url, WebClient.Builder webClient) {
+    public StockQuoteClient(OAuthHeader oAuthHeader, @Value("${base.url:}") String url, WebClient.Builder webClient) {
         this.oAuthHeader = oAuthHeader;
         this.webClient = webClient.baseUrl(url).build();
     }
@@ -48,6 +51,7 @@ public class StockQuoteClient {
                 .map(Root::getResponse)
                 .map(Response::getQuotes)
                 .flatMapIterable(Quotes::getQuote)
+                .doOnError(error -> log.error("Error fetching stock quotes:", error))
                 .onErrorReturn(fallbackValue());
     }
 

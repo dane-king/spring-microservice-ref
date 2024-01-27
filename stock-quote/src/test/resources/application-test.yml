@@ -1,4 +1,7 @@
 spring:
+  cloud:
+    config:
+      enabled: false
   kafka:
     consumer:
       timeout : 20

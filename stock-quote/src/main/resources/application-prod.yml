@@ -1,0 +1,6 @@
+spring:
+  config:
+    import: "optional:configserver:"
+logging:
+  level:
+    web: INFO

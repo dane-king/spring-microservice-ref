@@ -10,7 +10,11 @@ public class OAuthKeys {
     private final String token;
     private final String tokenSecret;
 
-    public OAuthKeys(@Value("${client.key}") String consumerKey, @Value("${client.secret}") String consumerSecret, @Value("${oauth.token}") String token, @Value("${oauth.secret}") String tokenSecret) {
+    public OAuthKeys(
+            @Value("${client.key:}") String consumerKey,
+            @Value("${client.secret:}") String consumerSecret,
+            @Value("${oauth.token:}") String token,
+            @Value("${oauth.secret:}") String tokenSecret) {
         this.consumerKey = consumerKey;
         this.consumerSecret = consumerSecret;
         this.token = token;

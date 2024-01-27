@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Configuration
 public class KafkaConfig {
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers:}")
     private String bootstrapServers;
 
     @Bean
@@ -25,6 +25,7 @@ public class KafkaConfig {
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        //TODO make @Value
         configProps.put(JsonSerializer.TYPE_MAPPINGS, "stockQuote:com.daneking.stockquote.StockQuote");
         return new DefaultKafkaProducerFactory<>(configProps);
     }
